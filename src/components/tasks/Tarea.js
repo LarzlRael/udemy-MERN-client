@@ -11,7 +11,7 @@ const Tarea = ({ tarea }) => {
 
     const tareasContext = useContext(TareaContext);
     //?Obtener el state del formulario
-    const { eliminarTarea, obtenerTareas } = tareasContext;
+    const { eliminarTarea, obtenerTareas, cambiarEstadotarea, guardarTareaActual } = tareasContext;
 
     //Extraer el proyecto
     const [proyectoActual] = proyecto;
@@ -22,7 +22,18 @@ const Tarea = ({ tarea }) => {
         eliminarTarea(id);
         obtenerTareas(proyectoActual.id)
     }
+    //?Funcion que modifica el estado de las tareas
+    const cambiarEstado = (tarea) => {
+        console.log('estado de tarea ', tarea.estado);
+        tarea.estado = !tarea.estado;
+        console.log('tarea despues ', tarea)
+        cambiarEstadotarea(tarea);
+    }
+    //? agrega una tarea acutal cuando el suarus desea editarla
 
+    const seleccionTarea = (tarea) => {
+        guardarTareaActual(tarea);
+    }
 
     return (
         <li className="tarea sombra">
@@ -34,12 +45,14 @@ const Tarea = ({ tarea }) => {
                     (<button
                         type="button"
                         className="completo"
+                        onClick={() => cambiarEstado(tarea)}
                     >Completo</button>
                     )
                     :
                     (<button
                         type="button"
                         className="Incompleto"
+                        onClick={() => cambiarEstado(tarea)}
                     >Incompleto</button>
                     )
                 }
@@ -48,6 +61,7 @@ const Tarea = ({ tarea }) => {
                 <button
                     type="button"
                     className="btn btn-primario"
+                    onClick={() => seleccionTarea(tarea)}
                 >Editar</button>
                 <button
                     type="button"

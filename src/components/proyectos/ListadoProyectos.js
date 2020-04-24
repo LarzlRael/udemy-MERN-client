@@ -2,6 +2,9 @@ import React, { useContext, useEffect } from 'react'
 import Proyecto from './Proyecto'
 import proyectoContext from '../../context/proyectos/proyectoContext';
 
+//? Librerias de react-transition-group
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
 const ListadoProyectos = () => {
 
     const proyectosContext = useContext(proyectoContext);
@@ -11,25 +14,28 @@ const ListadoProyectos = () => {
     //?cargando los proyectos por medio de useEffect 
     useEffect(() => {
         obtenerProyectos();
+        // eslit-disable-next-line
     }, [])
 
     //*Revisar si proyectos tiene contenido
     if (proyectos.length === 0) return <p>No hay proyecto, compienza agregando uno </p>;
 
-
-
-
     return (
-        <div>
-            <ul className="listado-proyectos">
+        <ul className="listado-proyectos">
+            <TransitionGroup>
                 {proyectos.map(proyecto => (
-                    <Proyecto
+                    <CSSTransition
                         key={proyecto.id}
-                        proyecto={proyecto}
-                    />
+                        timeout={200}
+                        classNames="proyecto"
+                    >
+                        <Proyecto
+                            proyecto={proyecto}
+                        />
+                    </CSSTransition>
                 ))}
-            </ul>
-        </div>
+            </TransitionGroup>
+        </ul>
     )
 }
 
