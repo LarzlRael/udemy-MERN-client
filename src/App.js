@@ -10,19 +10,21 @@ import Proyectos from './components/proyectos/Proyectos';
 //* ipmportando nuestros contexts
 import ProyectoState from './context/proyectos/proyectoState';
 import TareaState from './context/tasks/taskState';
-
+import AlertaState from './context/alertas/alertaState';
 //? usando nuestro context personalizado
 function App() {
   return (
     <ProyectoState>
       <TareaState>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Login} />
-            <Route exact path="/nueva-cuenta" component={NuevaCuenta} />
-            <Route exact path="/proyectos" component={Proyectos} />
-          </Switch>
-        </Router >
+        <AlertaState>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Login} />
+              <Route exact path="/nueva-cuenta" component={NuevaCuenta} />
+              <Route exact path="/proyectos" component={Proyectos} />
+            </Switch>
+          </Router >
+        </AlertaState>
       </TareaState>
     </ProyectoState>
   );
