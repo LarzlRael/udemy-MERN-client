@@ -1,7 +1,9 @@
 import React, { useReducer } from 'react';
-import AlertaContext from './alertaContexts';
 
-import { MONSTRAR_ALERTA, OCULTAR_ALERTA } from "../../types"; import alertaReducer from './alertaReducer';
+import AlertaContext from './alertaContexts';
+import alertaReducer from './alertaReducer';
+
+import { MONSTRAR_ALERTA, OCULTAR_ALERTA } from "../../types"; 
 
 const AlertaState = props => {
     const initialState = {
@@ -9,7 +11,7 @@ const AlertaState = props => {
     }
     const [state, dispath] = useReducer(alertaReducer, initialState);
 
-    //Funciones
+    //?Funciones
     const mostrarAlerta = (msg, categoria) => {
         dispath({
             type: MONSTRAR_ALERTA,
@@ -28,7 +30,7 @@ const AlertaState = props => {
     return (
         <AlertaContext.Provider
             value={{
-                //? estadps
+                //? estados
                 alerta: state.alerta,
 
                 //?funciones

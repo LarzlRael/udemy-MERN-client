@@ -1,10 +1,30 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import AlertaContext from '../../context/alertas/alertaContexts'
-const NuevaCuenta = () => {
-    //? Extraer los valores del context
+//* importando el context
+import AlertaContext from '../../context/alertas/alertaContexts';
+import AuthContext from '../../context/auth/authContext';
+
+//? estos props son mas que todo para usar el routing
+const NuevaCuenta = (props) => {
+    //? Declarando el context
     const alertaContext = useContext(AlertaContext);
+    // destructurando el context
     const { alerta, mostrarAlerta } = alertaContext;
+
+    const authContext = useContext(AuthContext);
+    const { mensaje, autenticado, registrarUsuario } = authContext;
+
+    //?En caso de que el usuario se haya atenticado o registrado o sea un registro duplicado
+
+    //!usando Efect
+    useEffect(() => {
+        if (autenticado) {
+            props.history.push('/proyectos');
+        }
+        if (mensaje) {
+            mostrarAlerta(mensaje.msg, mensaje.categoria);
+        }
+    }, [mensaje, autenticado])
 
     //? state para iniciar seesion
     const [usuario, guardarUsuario] = useState({
@@ -40,12 +60,15 @@ const NuevaCuenta = () => {
             return;
         }
         //* Los 2 password son iguales
-        if (password != confirmar) {
+        if (password !== confirmar) {
 
-            mostrarAlerta('Los password no son iguales', 'alerta-error');
+            mostrarAlerta('Las contraseñas deber sers iguales', 'alerta-error');
             return;
         }
         //* pasarlo al action
+        registrarUsuario({
+            nombre, email, password
+        })
     }
     return (
         <div className="form-usuario">
@@ -64,6 +87,7 @@ const NuevaCuenta = () => {
                             name="nombre"
                             placeholder="Tu nombre"
                             onChange={onChange}
+                            autoComplete="off"
                             value={nombre}
                         />
                     </div>

@@ -1,6 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useContext,useEffect } from 'react'
 import { Link } from 'react-router-dom'
-const Login = () => {
+
+//* importando el context
+import AlertaContext from '../../context/alertas/alertaContexts';
+import AuthContext from '../../context/auth/authContext';
+
+const Login = (props) => {
+
+    //? Declarando el context
+    const alertaContext = useContext(AlertaContext);
+    // destructurando el context
+    const { alerta, mostrarAlerta } = alertaContext;
+
+    const authContext = useContext(AuthContext);
+    const { mensaje, autenticado, iniciarSesion } = authContext;
+
+
+    //!usando Efect //en caso de quel usuario no existe o el password sea incorrecto
+    useEffect(() => {
+        if (autenticado) {
+            props.history.push('/proyectos');
+        }
+        if (mensaje) {
+            mostrarAlerta(mensaje.msg, mensaje.categoria);
+        }
+    }, [mensaje, autenticado])
+
+
     //? state para iniciar seesion
     const [usuario, guardarUsuario] = useState({
         email: '',
@@ -19,10 +45,20 @@ const Login = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        //?
+        //?Validar que no haya campos 
+        if (email.trim() === '' || password.trim() === '') {
+            mostrarAlerta('Todos los campos son necesarios', 'alerta-error');
+            return;
+        }
+        //? pasarlo al action
+        iniciarSesion({ email, password });
     }
     return (
         <div className="form-usuario">
+            {alerta ? (<div className={`alerta ${alerta.categoria}`} >
+                {alerta.msg}
+            </div>) : null}
+
             <div className="contenedor-form sobra-dark">
                 <h1>Iniciar Sesión</h1>
                 <form onSubmit={onSubmit}>
@@ -40,7 +76,7 @@ const Login = () => {
                     <div className="campo-form">
                         <label htmlFor="password">Password</label>
                         <input
-                            type="email"
+                            type="password"
                             id="password"
                             name="password"
                             placeholder="Tu password"
