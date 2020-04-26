@@ -13,7 +13,8 @@ const Authstate = props => {
         token: localStorage.getItem('token'),
         autenticado: null,
         usuario: null,
-        mensaje: null
+        mensaje: null,
+        cargando: true
     }
     const [state, dispatch] = useReducer(AuthReducer, initialState);
 
@@ -119,7 +120,7 @@ const Authstate = props => {
     //? Funcion para cerrar sesion
     const cerrarSesion = () => {
         dispatch({
-            type:CERRAR_SESION
+            type: CERRAR_SESION
         })
     }
     return (
@@ -130,6 +131,8 @@ const Authstate = props => {
                 autenticado: state.autenticado,
                 usuario: state.usuario,
                 mensaje: state.mensaje,
+                cargando: state.cargando,
+                
                 //? functions
                 registrarUsuario,
                 iniciarSesion,

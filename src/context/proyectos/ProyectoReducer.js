@@ -1,4 +1,4 @@
-import { FORMULARIO_PROYECTO, OBTENERPROYECTOS, AGREGARPROYECTO, VALIDAR_FORMULARIO, PROYECTO_ACTUAL, ELIMINAR_PROYECTO } from "../../types";
+import { FORMULARIO_PROYECTO, OBTENERPROYECTOS, AGREGARPROYECTO, VALIDAR_FORMULARIO, PROYECTO_ACTUAL, ELIMINAR_PROYECTO, PROYECTO_ERROR } from "../../types";
 
 // ? el reducer lo unico que hace es cmbiar el state
 export default (state, action) => {
@@ -30,21 +30,27 @@ export default (state, action) => {
         }
         // selecciona un proyecto actual
         case PROYECTO_ACTUAL: {
-            console.log('caseo de proyecto actual')
             return {
                 ...state,
-                proyecto: state.proyectos.filter(proyecto => proyecto.id === action.payload)
+                proyecto: state.proyectos.filter(proyecto => proyecto._id === action.payload)
             }
         }
         case ELIMINAR_PROYECTO: {
             return {
                 ...state,
-                proyectos: state.proyectos.filter(proyecto => proyecto.id !== action.payload),
-                // para que se elimine el proyecto actual
+                proyectos: state.proyectos.filter(proyecto => proyecto._id !== action.payload),
+                //? para que se elimine el proyecto actual
                 proyecto: null
 
             }
         }
+        case PROYECTO_ERROR: {
+            return {
+                ...state,
+                mensaje: action.payload
+            }
+        }
+
 
         default:
             return state;

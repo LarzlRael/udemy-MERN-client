@@ -1,25 +1,16 @@
 import React, { useReducer } from 'react';
 import TareaContext from './taskContext';
 import taskReducer from './taskReducer';
-import uuid from 'uuid/v4';
 //? importando los types
+import { TAREAS_PROYECTO, AGREGAR_TAREA, VALIDAR_TAREA, ELIMINAR_TAREA, TAREA_ACTUAL, ACTUALIZAR_TAREA, LIMPIAR_TAREA } from '../../types';
 
-import { TAREAS_PROYECTO, AGREGAR_TAREA, VALIDAR_TAREA, ELIMINAR_TAREA, ESTADO_TAREA, TAREA_ACTUAL, ACTUALIZAR_TAREA, LIMPIAR_TAREA } from '../../types';
+//? importando el cliente de axios 
+import clienteAxios from '../../config/axios';
 
 const TareaState = props => {
     const initicalState = {
-        tareas: [
-            { id: 1, nombre: 'Elegir plataforma', estado: true, proyectoId: 1 },
-            { id: 2, nombre: 'Elegir Colores', estado: true, proyectoId: 2 },
-            { id: 3, nombre: 'Elegir plataforma de pago', estado: false, proyectoId: 3 },
-            { id: 4, nombre: 'Elegir hosting', estado: true, proyectoId: 4 },
-            { id: 5, nombre: 'Elegir angular', estado: true, proyectoId: 1 },
-            { id: 6, nombre: 'Elegir un cel', estado: true, proyectoId: 2 },
-            { id: 7, nombre: 'Elegir hosting', estado: true, proyectoId: 3 },
-            { id: 8, nombre: 'Elegir hosting', estado: true, proyectoId: 4 },
-            { id: 9, nombre: 'Elegir hosting', estado: true, proyectoId: 2 },
-        ],
-        tareasproyecto: null,
+
+        tareasproyecto: [],
         errortarea: false,
         tareSeleccionada: null
     }
@@ -29,22 +20,37 @@ const TareaState = props => {
 
     //? Obtener las tereas de proyectos
 
-    const obtenerTareas = proyectoId => {
-        dispatch({
-            type: TAREAS_PROYECTO,
-            payload: proyectoId
-        })
+    const obtenerTareas = async (proyecto) => {
+
+        try {
+            const resultado = await clienteAxios.get(`/api/tareas`, { params: { proyecto } });
+            console.log(resultado);
+            dispatch({
+                type: TAREAS_PROYECTO,
+                payload: resultado.data.tareas
+            })
+
+        } catch (error) {
+
+        }
     }
 
     //? agregar una tarea al proyecto seleccionado
 
-    const agregarTarea = (tarea) => {
-        tarea.id = uuid();
-        dispatch({
-            type: AGREGAR_TAREA,
-            payload: tarea
+    const agregarTarea = async (tarea) => {
+        console.log(tarea)
+        try {
+            const resultado = await clienteAxios.post('/api/tareas', tarea);
+            console.log(resultado)
+            dispatch({
+                type: AGREGAR_TAREA,
+                payload: tarea
 
-        })
+            })
+        } catch (error) {
+
+        }
+
     }
 
     //? valida y muestar un error en caso de que haya un error
@@ -57,36 +63,44 @@ const TareaState = props => {
 
     //? eliminzar tarea por el id
 
-    const eliminarTarea = (id) => {
-        dispatch({
-            type: ELIMINAR_TAREA,
-            payload: id
-        })
+    const eliminarTarea = async (id, proyecto) => {
+        try {
+            await clienteAxios.delete(`/api/tareas/${id}`, { params: { proyecto } })
+            dispatch({
+                type: ELIMINAR_TAREA,
+                payload: id
+            })
+        } catch (error) {
+
+        }
     }
 
-    const cambiarEstadotarea = (tarea) => {
-        dispatch({
-            type: ESTADO_TAREA,
-            payload: tarea
-        })
+    //? Edito o modifica una tarea
+
+    const actualizarTarea = async (tarea) => {
+
+        console.log(tarea);
+
+        try {
+            const resultado = await clienteAxios.put(`/api/tareas/${tarea._id}`, tarea);
+            console.log(resultado);
+            dispatch({
+                type: ACTUALIZAR_TAREA,
+                payload: resultado.data.tarea
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     //?extrae una tarea para edicion
     const guardarTareaActual = (tarea) => {
-        console.log('esto se va a editar')
         dispatch({
             type: TAREA_ACTUAL,
             payload: tarea
         })
     }
-    //? Edito o modifica una tarea
 
-    const actualizarTarea = (tarea) => {
-        dispatch({
-            type: ACTUALIZAR_TAREA,
-            payload: tarea
-        })
-    }
     //? Elimina o limpia la tarea selleciona
     const limpiarTarea = () => {
         dispatch({
@@ -96,7 +110,7 @@ const TareaState = props => {
     return (
         <TareaContext.Provider
             value={{
-                tareas: state.tareas,
+                // tareas: state.tareas,
                 tareasproyecto: state.tareasproyecto,
                 errortarea: state.errortarea,
                 tareaSeleccionada: state.tareSeleccionada,
@@ -105,7 +119,6 @@ const TareaState = props => {
                 agregarTarea,
                 validarTarea,
                 eliminarTarea,
-                cambiarEstadotarea,
                 guardarTareaActual,
                 actualizarTarea,
                 limpiarTarea

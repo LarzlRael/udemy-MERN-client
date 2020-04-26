@@ -11,7 +11,7 @@ const Tarea = ({ tarea }) => {
 
     const tareasContext = useContext(TareaContext);
     //?Obtener el state del formulario
-    const { eliminarTarea, obtenerTareas, cambiarEstadotarea, guardarTareaActual } = tareasContext;
+    const { eliminarTarea, obtenerTareas, actualizarTarea, guardarTareaActual } = tareasContext;
 
     //Extraer el proyecto
     const [proyectoActual] = proyecto;
@@ -19,7 +19,7 @@ const Tarea = ({ tarea }) => {
 
     //?Funcion que se ejecucuta cuando el usuario presiona el btn de eliminar tarea
     const tareaEliminar = (id) => {
-        eliminarTarea(id);
+        eliminarTarea(id, proyectoActual._id);
         obtenerTareas(proyectoActual.id)
     }
     //?Funcion que modifica el estado de las tareas
@@ -27,7 +27,7 @@ const Tarea = ({ tarea }) => {
         console.log('estado de tarea ', tarea.estado);
         tarea.estado = !tarea.estado;
         console.log('tarea despues ', tarea)
-        cambiarEstadotarea(tarea);
+        actualizarTarea(tarea);
     }
     //? agrega una tarea acutal cuando el suarus desea editarla
 
@@ -66,7 +66,7 @@ const Tarea = ({ tarea }) => {
                 <button
                     type="button"
                     className="btn btn-secundario"
-                    onClick={() => { tareaEliminar(tarea.id) }}
+                    onClick={() => { tareaEliminar(tarea._id) }}
                 >Eliminar</button>
             </div>
         </li>

@@ -13,6 +13,8 @@ import TareaState from './context/tasks/taskState';
 import AlertaState from './context/alertas/alertaState';
 import Authstate from './context/auth/authState';
 import tokenAuth from './config/tokenAuth';
+//* componente para poder proteger nuestras rutas
+import RutaPrivada from './rutas/RutaPrivada';
 //? usando nuestro context personalizado
 
 //? Revisar si tenemos token
@@ -33,7 +35,7 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Login} />
                 <Route exact path="/nueva-cuenta" component={NuevaCuenta} />
-                <Route exact path="/proyectos" component={Proyectos} />
+                <RutaPrivada exact path="/proyectos" component={Proyectos} />
               </Switch>
             </Router >
           </Authstate>
