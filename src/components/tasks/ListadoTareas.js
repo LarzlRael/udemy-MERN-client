@@ -21,13 +21,10 @@ const ListadoTareas = () => {
 
 
     //?si mp hay proyecto seleccionado
-    if (!proyecto) return <h2>Seleccion un proyecto</h2>;
+    if (!proyecto) return <h2>Selecciona un proyecto</h2>;
 
     //? Array desctrturing para extrar el proyecto actual
     const [proyectoActual] = proyecto;
-
-
-
 
     //? Eliminar el proyecto
 
@@ -39,18 +36,18 @@ const ListadoTareas = () => {
             <h2>Proyecto: {proyectoActual.nombre}</h2>
             <ul className="listado-tareas">
                 {tareasproyecto.length === 0
-                    ? (<li className="tarea"><p>No hay tarea</p></li>)
+                    ? (<li className="tarea"><p>No hay tareas</p></li>)
                     :
                     <TransitionGroup>
                         {
                             tareasproyecto.map(tarea => (
                                 <CSSTransition
-                                    key={tarea.id}
+                                    key={tarea._id}
                                     timeout={200}
                                     classNames="tarea"
                                 >
                                     <Tarea
-
+                                        key={tarea._id}
                                         tarea={tarea} />
                                 </CSSTransition>
                             ))

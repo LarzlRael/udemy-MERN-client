@@ -26,7 +26,6 @@ const NuevoProyecto = () => {
 
     //? Cuando el usuario envia un proyecto
     const onSubmitProyecto = (e) => {
-        console.log('enviando .....')
         e.preventDefault();
 
         //*validar el proyecto

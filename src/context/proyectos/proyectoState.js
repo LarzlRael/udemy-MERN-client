@@ -26,7 +26,6 @@ const ProyectoState = props => {
 
     const mostrarFormulario = () => {
         // ? cuando se llava a esta funcion tambien se llama el type
-        console.log('Esto deberua cambiar el estatdo');
         dispatch({
             type: FORMULARIO_PROYECTO
         })

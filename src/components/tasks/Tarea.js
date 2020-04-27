@@ -3,7 +3,7 @@ import TareaContext from '../../context/tasks/taskContext';
 import proyectoContext from '../../context/proyectos/proyectoContext';
 
 const Tarea = ({ tarea }) => {
-
+    console.log(tarea);
     const proyectosContext = useContext(proyectoContext);
     //? Importando Solo el proyecto del state principal
     const { proyecto } = proyectosContext;
@@ -13,20 +13,22 @@ const Tarea = ({ tarea }) => {
     //?Obtener el state del formulario
     const { eliminarTarea, obtenerTareas, actualizarTarea, guardarTareaActual } = tareasContext;
 
-    //Extraer el proyecto
+    //?Extraer el proyecto
     const [proyectoActual] = proyecto;
 
 
     //?Funcion que se ejecucuta cuando el usuario presiona el btn de eliminar tarea
     const tareaEliminar = (id) => {
+        console.log('id que se va a eliminar ', id);
         eliminarTarea(id, proyectoActual._id);
         obtenerTareas(proyectoActual.id)
     }
     //?Funcion que modifica el estado de las tareas
     const cambiarEstado = (tarea) => {
-        console.log('estado de tarea ', tarea.estado);
+
         tarea.estado = !tarea.estado;
         console.log('tarea despues ', tarea)
+
         actualizarTarea(tarea);
     }
     //? agrega una tarea acutal cuando el suarus desea editarla

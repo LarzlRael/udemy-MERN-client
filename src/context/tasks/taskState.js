@@ -24,7 +24,6 @@ const TareaState = props => {
 
         try {
             const resultado = await clienteAxios.get(`/api/tareas`, { params: { proyecto } });
-            console.log(resultado);
             dispatch({
                 type: TAREAS_PROYECTO,
                 payload: resultado.data.tareas
@@ -78,9 +77,7 @@ const TareaState = props => {
     //? Edito o modifica una tarea
 
     const actualizarTarea = async (tarea) => {
-
         console.log(tarea);
-
         try {
             const resultado = await clienteAxios.put(`/api/tareas/${tarea._id}`, tarea);
             console.log(resultado);

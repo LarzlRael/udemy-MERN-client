@@ -43,7 +43,6 @@ const Authstate = props => {
             })
         } try {
             const respuesta = await clienteAxios.post('/api/users', datos);
-            console.log(respuesta);
             //? almacenamiento del token
             dispatch({
                 type: REGISTRO_EXITOSO,
@@ -74,7 +73,6 @@ const Authstate = props => {
         }
         try {
             const respuesta = await clienteAxios.get('api/auth')
-            console.log(respuesta.data);
             dispatch({
                 type: OBTENER_USUARIO,
                 payload: respuesta.data.usuario

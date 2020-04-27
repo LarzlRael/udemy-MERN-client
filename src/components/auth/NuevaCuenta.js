@@ -88,7 +88,6 @@ const NuevaCuenta = (props) => {
                             name="nombre"
                             placeholder="Tu nombre"
                             onChange={onChange}
-                            autoComplete="off"
                             value={nombre}
                         />
                     </div>
@@ -120,7 +119,7 @@ const NuevaCuenta = (props) => {
                             type="password"
                             id="confirmar"
                             name="confirmar"
-                            placeholder="Tu confirmar"
+                            placeholder="Repetir Contraseña"
                             onChange={onChange}
                             value={confirmar}
                         />

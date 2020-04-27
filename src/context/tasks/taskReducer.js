@@ -23,12 +23,11 @@ export default (state, action) => {
                 ...state,
                 tareasproyecto: state.tareasproyecto.filter(tarea => tarea._id !== action.payload)
             }
-        case ACTUALIZAR_TAREA:
+        case ACTUALIZAR_TAREA: 
             return {
                 ...state,
-                tareasproyecto: state.tareasproyecto.map(tarea => tarea._id === action.payload._id
-                    ? action.payload : tarea
-                )
+                tareasproyecto: state.tareasproyecto.map(tarea => tarea._id === 
+                action.payload._id ? action.payload : tarea)
             }
 
         case TAREA_ACTUAL: {
